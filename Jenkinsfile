@@ -56,7 +56,8 @@ pipeline {
                 emailext(
                     subject: "Deployment Successful",
                     body: "The deployment to ${params.Environment} was successful.",
-                    to: 'maximdove@gmail.com'
+                    to: 'maximdove@gmail.com',
+                    from: 'maximfeb@gmail.com'
                 )
             }
         }
@@ -65,7 +66,8 @@ pipeline {
                 emailext(
                     subject: "Deployment Failed",
                     body: "The deployment to ${params.Environment} failed.",
-                    to: 'maximdove@gmail.com'
+                    to: 'maximdove@gmail.com',
+                    from: 'maximfeb@gmail.com'
                 )
             }
         }
