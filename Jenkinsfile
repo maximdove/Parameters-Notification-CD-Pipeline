@@ -12,7 +12,8 @@ pipeline {
             description: 'Enter the version number'
         )
     }
-    stage('Deploy') {
+    stages {
+        stage('Deploy') {
             steps {
                 script {
                     // Remove any existing container with the same name
@@ -27,6 +28,7 @@ pipeline {
                 script {
                     sh "sleep 10" // Give the container some time to start
                     try {
+                        // Adjusting the URL to reflect the port change to 8080
                         sh "curl http://localhost:8080/health"
                     } catch (Exception e) {
                         error "Health check failed: ${e.message}"
