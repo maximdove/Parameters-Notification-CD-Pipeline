@@ -13,6 +13,14 @@ pipeline {
         )
     }
     stages {
+        stage('Build and Push Image') {
+            steps {
+                script {
+                    def image = docker.build("maximdove/my-web-app:${params.Version}")
+                    image.push()
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 script {
