@@ -19,7 +19,7 @@ pipeline {
                     // Remove any existing container with the same name
                     sh "docker rm -f my-web-app-${params.Environment} || true"
                     // Deploy the Docker image to the selected environment
-                    sh "docker run -d -e ENV=${params.Environment} --name my-web-app-${params.Environment} -p 9090:80 maximdove/my-web-app:${params.Version}"
+                    sh "docker run -d -e ENV=${params.Environment} --name my-web-app-${params.Environment} -p 9090:80 maximdove/my-web-app:1.0-amd64"
                 }
             }
         }
