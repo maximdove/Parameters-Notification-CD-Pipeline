@@ -19,7 +19,6 @@ pipeline {
                     // Remove any existing container with the same name
                     sh "docker rm -f my-web-app-${params.Environment} || true"
                     // Deploy the Docker image to the selected environment
-                    // Note the change in port binding from 8080:80 to 9090:80
                     sh "docker run -d -e ENV=${params.Environment} --name my-web-app-${params.Environment} -p 9090:80 maximdove/my-web-app:${params.Version}"
                 }
             }
@@ -29,7 +28,6 @@ pipeline {
                 script {
                     sh "sleep 10" // Give the container some time to start
                     try {
-                        // Adjusting the URL to reflect the port change to 9090
                         sh "curl http://localhost:9090/health"
                     } catch (Exception e) {
                         error "Health check failed: ${e.message}"
