@@ -12,12 +12,18 @@ pipeline {
             description: 'Enter the version number'
         )
     }
+    environment {
+        DOCKER = credentials('docker-hub-credentials')
+    }
     stages {
-        stage('Build and Push Image') {
+        stage('Build and Push') {
             steps {
                 script {
-                    def image = docker.build("maximdove/my-web-app:${params.Version}")
-                    image.push()
+                    // This block automatically logs in to Docker Hub, handles the push, and then logs out
+                    withDockerRegistry([ credentialsId: 'docker-hub-credentials', url: '' ]) {
+                        def image = docker.build("maximdove/my-web-app:${params.Version}")
+                        image.push()
+                    }
                 }
             }
         }
@@ -50,7 +56,7 @@ pipeline {
                 emailext(
                     subject: "Deployment Successful",
                     body: "The deployment to ${params.Environment} was successful.",
-                    to: 'maximfeb@gmail.com'
+                    to: 'maximdove@gmail.com'
                 )
             }
         }
@@ -59,7 +65,7 @@ pipeline {
                 emailext(
                     subject: "Deployment Failed",
                     body: "The deployment to ${params.Environment} failed.",
-                    to: 'maximfeb@gmail.com'
+                    to: 'maximdove@gmail.com'
                 )
             }
         }
