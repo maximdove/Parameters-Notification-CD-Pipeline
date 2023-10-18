@@ -53,22 +53,30 @@ pipeline {
     post {
         success {
             script {
-                emailext(
-                    subject: "Deployment Successful",
-                    body: "The deployment to ${params.Environment} was successful.",
-                    to: 'maximdove@gmail.com',
-                    from: 'maximfeb@gmail.com'
-                )
+                try {
+                    emailext(
+                        subject: "Deployment Successful",
+                        body: "The deployment to ${params.Environment} was successful.",
+                        to: 'maximdove@gmail.com',
+                        from: 'maximfeb@gmail.com'
+                    )
+                } catch (Exception e) {
+                    echo "Failed to send email: ${e.getMessage()}"
+                }
             }
         }
         failure {
             script {
-                emailext(
-                    subject: "Deployment Failed",
-                    body: "The deployment to ${params.Environment} failed.",
-                    to: 'maximdove@gmail.com',
-                    from: 'maximfeb@gmail.com'
-                )
+                try {
+                    emailext(
+                        subject: "Deployment Failed",
+                        body: "The deployment to ${params.Environment} failed.",
+                        to: 'maximdove@gmail.com',
+                        from: 'maximfeb@gmail.com'
+                    )
+                } catch (Exception e) {
+                    echo "Failed to send email: ${e.getMessage()}"
+                }
             }
         }
     }
